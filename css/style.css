@@ -1,0 +1,122 @@
+/* COLORS PRESET 1 */
+
+
+/* ------ */
+.container {
+    width: 85% !important;
+}
+.margin-default {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.margin-top-50 {
+    margin-top: 50px;
+}
+
+.form-group input {
+    width: 90%;
+    margin: 5px auto;
+}
+
+.club-name {
+    display: inline-block;
+}
+
+/* TABLE */
+.table.table-flights td {
+    vertical-align: middle;
+    height: 50px;
+}
+.td-new-fly.less-pad {
+    padding-left: 1px;
+}
+
+.empty-field {
+    font-size: 20px;
+    color: red;
+}
+
+.td-time-elapsed {
+    position: relative;
+}
+
+.time-elapsed-container {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.time-elapsed-container .time-elapsed-icon {
+    font-size: 25px;
+    color: #5bc0de;
+    vertical-align: middle;
+    padding-right: 10px;
+}
+
+.time-elapsed-container .time-elapsed-text {
+    font-size: 18px;
+    color: #5bc0de;
+    vertical-align: middle;
+}
+
+/* ------ */
+
+/* FLAG CONTAINER */
+
+.flag-container .green-flag {
+    height: 50px;
+    background-color: #5cb85c;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.flag-container .white-flag {
+    height: 50px;
+    background-color: #f9f9f9;
+}
+
+.flag-container .red-flag {
+    height: 50px;
+    background-color: #d9534f;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+
+/* ------- */
+
+/* ROW ANIMATION */
+
+.row-active{
+    -webkit-animation: row-active-lamp 2s infinite;
+    -moz-animation: row-active-lamp 2s infinite;
+    -o-animation: row-active-lamp 2s infinite;
+    -ms-animation: row-active-lamp 2s infinite;
+    animation: row-active-lamp 2s infinite;
+}
+
+@-webkit-keyframes row-active-lamp {
+    0% { background-color: #fff8e1; }
+    50% { background-color: white; }
+    100% { background-color: #fff8e1; }
+}
+@-moz-keyframes row-active-lamp {
+    0% { background-color: #fff8e1; }
+    50% { background-color: white; }
+    100% { background-color: #fff8e1; }
+}
+@-ms-keyframes row-active-lamp {
+    0% { background-color: #fff8e1; }
+    50% { background-color: white; }
+    100% { background-color: #fff8e1; }
+}
+@-o-keyframes row-active-lamp {
+    0% { background-color: #fff8e1; }
+    50% { background-color: white; }
+    100% { background-color: #fff8e1; }
+}
+@keyframes row-active-lamp {
+    0% { background-color: #fff8e1; }
+    50% { background-color: white; }
+    100% { background-color: #fff8e1; }
+}
