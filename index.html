@@ -28,7 +28,7 @@
             <div class="col-sm-4 white-flag"></div>
             <div class="col-sm-4 red-flag"></div>
         </div>
-        <div class="container table-container margin-top-50">
+        <div class="container table-container margin-top-50 hidden-xs hidden-sm">
             <div class="row">
                 <table class="table table-responsive table-flights">
                     <thead>
@@ -44,8 +44,12 @@
                         <th>H atterraggio aliante</th>
                     </thead>
                     <tbody>
+                        <!-- ng-class="{'row-active':flight.oraDecollo != '' && flight.oraAtterraggioAliante == ''}"-->
+                        <!--<div class="led-box" ng-if="flight.oraDecollo != '' && flight.oraAtterraggioAliante == ''">
+                            <div class="led-red"></div>
+                        </div>-->
                         <tr ng-repeat="flight in flightsList" ng-class="{'row-active':flight.oraDecollo != '' && flight.oraAtterraggioAliante == ''}">
-                            <td>{{flight.id}}</td>
+                            <td class="td-id">{{flight.id}}</td>
                             <td>{{flight.sctm}}</td>
                             <td>{{flight.primoPilota}}<br>{{flight.secondoPilota}}</td>
                             <td>{{flight.marcheAliante}}</td>
@@ -86,75 +90,140 @@
                             <td></td>
                         </tr>
                     </tbody>
+                </table>
             </div>
         </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="newFly">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content text-center">
-                <h3>Creazione nuovo volo</h3>
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label>
-                            SC
-                            <input type="radio" ng-model="sctmInput" value="SC">
-                        </label>
-                        <label>
-                            TM
-                            <input type="radio" ng-model="sctmInput" value="TM">
-                        </label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Primo pilota:</label>
-                        <input type="text" class="form-control" id="primo-pilota" ng-model="primoPilotaInput">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Secondo pilota:</label>
-                        <input type="text" class="form-control" id="secondo-pilota" ng-model="secondoPilotaInput">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Marche aliante:</label><br>
-                        <select ng-model="marcheAlianteInput">
-                            <option>I-LVIG</option>
-                            <option>Altro</option>
-                        </select>
-                        <input type="text" class="form-control" ng-model="marcheAlianteAltroInput" ng-show="marcheAlianteInput=='Altro'">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Pilota trainatore:</label>
-                        <input type="text" class="form-control" id="pilota-trainatore" ng-model="pilotaTrainatoreInput">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Marche trainatore:</label><br>
-                        <select ng-model="marcheTrainatoreInput">
-                            <option>Example 1</option>
-                            <option>Example 2</option>
-                            <option>Altro</option>
-                        </select>
-                        <input type="text" class="form-control" ng-model="marcheTrainatoreAltroInput" ng-show="marcheTrainatoreInput=='Altro'">
 
+        <!-- MOBILE TABLE -->
+        <div class="container table-container margin-top-50 visible-xs visible-sm">
+            <div class="row">
+                <table class="table table-responsive table-flights table-flights-mobile">
+                    <thead>
+                        <th>ID</th>
+                        <th>Sc/Tm</th>
+                        <th>Primo pilota<br>Secondo pilota</th>
+                        <th>M. aliante</th>
+                        <th>H decollo</th>
+                        <th>H atterraggio trainatore</th>
+                        <th>H atterraggio aliante</th>
+                    </thead>
+                    <tbody ng-repeat="flight in flightsList" ng-class="{'row-active':flight.oraDecollo != '' && flight.oraAtterraggioAliante == ''}">
+                        <tr>
+                            <td class="td-id">{{flight.id}}</td>
+                            <td>{{flight.sctm}}</td>
+                            <td>{{flight.primoPilota}}<br>{{flight.secondoPilota}}</td>
+                            <td rowspan="3" class="td-marche-aliante">{{flight.marcheAliante}}</td>
+                            <td rowspan="3" class="text-center"><button class="btn btn-success" ng-if="flight.oraDecollo == ''" ng-click="startFlight($index)">
+                                <span class="glyphicon glyphicon-play start-button"></span>Start
+                                </button>
+                                <span ng-if="flight.oraDecollo != ''">{{flight.oraDecollo | limitTo: 5 }}</span>
+                            </td>
+                            <td rowspan="3" class="text-center"><button class="btn btn-danger" ng-if="flight.oraAtterraggioTrainatore == '' && flight.oraDecollo != ''" ng-click="stopFirst($index)">
+                                <span class="glyphicon glyphicon-stop stop-button"></span>Stop
+                                </button>
+                                <span ng-if="flight.oraAtterraggioTrainatore != ''">{{flight.oraAtterraggioTrainatore | limitTo: 5}}</span>
+                                <span class="glyphicon glyphicon-remove empty-field" ng-if="flight.oraAtterraggioTrainatore == '' && flight.oraDecollo == ''"></span>
+                            </td>
+                            <td rowspan="3" class="td-time-elapsed text-center"><button class="btn btn-danger" ng-if="flight.oraAtterraggioAliante == '' && flight.oraAtterraggioTrainatore != ''" ng-click="stopSecond($index)">
+                                <span class="glyphicon glyphicon-stop stop-button"></span>Stop
+                                </button>
+                                <span ng-if="flight.oraAtterraggioAliante != ''">{{flight.oraAtterraggioAliante | limitTo: 5}}</span>
+                                <span class="glyphicon glyphicon-remove empty-field" ng-if="flight.oraAtterraggioAliante == '' && flight.oraAtterraggioTrainatore == ''"></span>
+                                <span class="time-elapsed-container" ng-if="flight.oraAtterraggioAliante == ''"><span class="glyphicon glyphicon-time time-elapsed-icon"></span><span class="time-elapsed-text" ng-if="activeFlightsCounters[$index].state == 'active' || activeFlightsCounters[$index].state == 'sleep'">{{activeFlightsCounters[$index].value}}</span></span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">Pilota trainatore</td>
+                            <td class="td-title">M. trainatore</td>
+                            <td class="td-title">Sgancio</td>
+                        </tr>
+                        <tr>
+                            <td class="td-sub">{{flight.pilotaTrainatore}}</td>
+                            <td class="td-sub">{{flight.marcheTrainatore}}</td>
+                            <td class="td-sub">{{flight.quotaSgancio}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td class="td-new-fly less-pad"><button class="btn btn-primary" style="padding: 5px" data-toggle="modal" data-target="#newFly"><span class="glyphicon glyphicon-plus"></span></button></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="newFly">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content text-center">
+                    <h3>Creazione nuovo volo</h3>
+                    <br>
+                    <form>
+                        <div class="form-group">
+                            <label>
+                                SC
+                                <input type="radio" ng-model="sctmInput" value="SC">
+                            </label>
+                            <label>
+                                TM
+                                <input type="radio" ng-model="sctmInput" value="TM">
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Primo pilota:</label>
+                            <input type="text" class="form-control" id="primo-pilota" ng-model="primoPilotaInput">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Secondo pilota:</label>
+                            <input type="text" class="form-control" id="secondo-pilota" ng-model="secondoPilotaInput">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Marche aliante:</label><br>
+                            <select ng-model="marcheAlianteInput">
+                                <option>I-LVIG</option>
+                                <option>Altro</option>
+                            </select>
+                            <input type="text" class="form-control" ng-model="marcheAlianteAltroInput" ng-show="marcheAlianteInput=='Altro'">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pilota trainatore:</label>
+                            <input type="text" class="form-control" id="pilota-trainatore" ng-model="pilotaTrainatoreInput">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Marche trainatore:</label><br>
+                            <select ng-model="marcheTrainatoreInput">
+                                <option>Example 1</option>
+                                <option>Example 2</option>
+                                <option>Altro</option>
+                            </select>
+                            <input type="text" class="form-control" ng-model="marcheTrainatoreAltroInput" ng-show="marcheTrainatoreInput=='Altro'">
+
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Quota sgancio:</label>
+                            <input type="text" class="form-control" id="quota-sgancio" ng-model="quotaSgancioInput">
+                        </div>
+                        
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" ng-click="addNewFlight()" data-dismiss="modal">Crea</button>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Quota sgancio:</label>
-                        <input type="text" class="form-control" id="quota-sgancio" ng-model="quotaSgancioInput">
-                    </div>
-                    
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="addNewFlight()" data-dismiss="modal">Crea</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
 

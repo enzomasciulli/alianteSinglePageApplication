@@ -50,7 +50,7 @@ myApp.controller('flightsController', ['$scope','$timeout', function($scope, $ti
           'pilotaTrainatore':'Maglioni',
           'marcheTrainatore':'I-AEFE',
           'quotaSgancio':'750',
-          'oraDecollo':'13.40.30',
+          'oraDecollo':'',
           'oraAtterraggioTrainatore':'',
           'oraAtterraggioAliante':''
       }
@@ -185,7 +185,7 @@ myApp.controller('flightsController', ['$scope','$timeout', function($scope, $ti
       $scope.pilotaTrainatoreInput = '';
       $scope.marcheTrainatoreInput = '';
       $scope.quotaSgancioInput = '';
-
+      console.log("qua");
       $scope.flightsList.push(flight);
       activeFlightsCountersInitialize();
 
@@ -194,7 +194,19 @@ myApp.controller('flightsController', ['$scope','$timeout', function($scope, $ti
   var getHourNow = function(){
     var time = new Date();
     var regularTime = '';
-    regularTime = time.getHours()+'.'+time.getMinutes()+'.'+time.getSeconds();
+    var hours = time.getHours();
+    var minutes = time.getMinutes();
+    var seconds = time.getSeconds();
+    if(hours < 10) {
+        hours = '0'+hours;
+    }
+    if(minutes < 10) {
+        minutes = '0'+minutes;
+    }
+    if(seconds < 10) {
+        seconds = '0'+seconds;
+    }
+    regularTime = hours+'.'+minutes+'.'+seconds;
     return regularTime;
   }
 
